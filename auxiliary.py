@@ -23,3 +23,11 @@ def logarithm(Z):
     constant = 0.000001
     Z = np.where(Z == 0, constant, Z)
     return np.log(Z)
+
+def tanh(Z):
+    # Hyperbolic Tangent function - alternative for the Sigmoid Function
+    return (np.exp(Z) - np.exp(-Z)) / (np.exp(Z) + np.exp(-Z))
+
+def tanh_derivative(Z):
+    # Hyperbolic Tangent Derivative
+    return 1 / np.power(np.cosh(Z), 2)

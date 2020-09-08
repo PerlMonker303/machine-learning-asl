@@ -18,7 +18,6 @@ def model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, print_co
     """
 
     np.random.seed(1)  # initialise a random seed
-    grads = {}  # dictionary of gradients
     costs = []  # to keep track of the cost
     m = X.shape[1]  # number of examples
     (n_x, n_h, n_y) = layers_dims  # unboxing the layer dimensions
@@ -33,7 +32,6 @@ def model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, print_co
     # Start Optimization - Batch Gradient Descent
     activations = {}  # Dictionary to hold the activation vectors ( A_0, A_1, ... A_(L-1) )
     cache = {}  # Dictionary in which we cache the results of Z (we need them for back propagation algorithm)
-    old_parameters = list()  # TEST
     for i in range(0, num_iterations):
         # Forward Propagation Step
         activations['A' + str(0)] = X
@@ -43,7 +41,7 @@ def model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, print_co
             b = parameters['b' + str(j)]  # Retrieve the bias from the parameters dictionary
             Z = np.dot(W, A_prev) + b  # Compute the Z value for the current layer
             if j == len(dimensions) - 1:  # Compute the activation for the current layer
-                A = sigmoid(Z)
+                A = tanh(Z)
             else:
                 A = relu(Z)
             activations['A' + str(j)] = A  # Store the activation so we can use it for the following iteration
@@ -51,16 +49,17 @@ def model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, print_co
 
         # Cost computation
         A_last = A  # Taking the last activation vector
+        # ERROR - SOMEHOW THE COST BECOMES 'NAN'
         cost = - 1 / m * np.sum(Y*logarithm(A_last) + (1-Y)*logarithm(1-A_last))
         costs.append(cost)
 
         # Backward Propagation Step
-        grads = dict()  # Declaring empty gradient dictionary
+        grads = dict()  # Declaring an empty gradient dictionary
         grads['dA' + str(len(dimensions) - 1)] = - Y / A_last + (1 - Y) / ((1 - A_last) + 0.0000001)
         for j in range(len(dimensions) - 1, 0, -1):
             dA = grads['dA' + str(j)]
             if j == len(dimensions) - 1:
-                dZ = dA * sigmoid_derivative(cache['Z' + str(j)])
+                dZ = dA * tanh_derivative(cache['Z' + str(j)])
             else:
                 dZ = dA * relu_derivative(cache['Z' + str(j)])
             A_prev = activations['A' + str(j-1)]
@@ -74,9 +73,6 @@ def model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, print_co
 
         # Updating parameters (weights and biases)
         for j in range(len(dimensions)-1):
-            old_parameters.append(grads["dW" + str(j + 1)])
-            old_parameters.append(grads["db" + str(j + 1)])
-            # FOUND THE ERROR : GRADIENTS BECOME ZERO
             parameters["W" + str(j + 1)] -= learning_rate * grads["dW" + str(j + 1)]
             parameters["b" + str(j + 1)] -= learning_rate * grads["db" + str(j + 1)]
 
