@@ -33,6 +33,7 @@ def model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, print_co
     # Start Optimization - Batch Gradient Descent
     activations = {}  # Dictionary to hold the activation vectors ( A_0, A_1, ... A_(L-1) )
     cache = {}  # Dictionary in which we cache the results of Z (we need them for back propagation algorithm)
+    old_parameters = list()  # TEST
     for i in range(0, num_iterations):
         # Forward Propagation Step
         activations['A' + str(0)] = X
@@ -49,40 +50,45 @@ def model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, print_co
             cache['Z' + str(j)] = Z  # Cache the current Z vector to be used later in the back propagation phase
 
         # Cost computation
-        A_last = activations['A' + str(len(dimensions) - 1)]  # Taking the last activation vector
+        A_last = A  # Taking the last activation vector
         cost = - 1 / m * np.sum(Y*logarithm(A_last) + (1-Y)*logarithm(1-A_last))
+        costs.append(cost)
 
         # Backward Propagation Step
-        grads = {} # Declaring empty gradient dictionary
-        dZ_prev = A_last - Y
-        dW = 1 / m * np.dot(dZ_prev, activations['A' + str(len(dimensions) - 2)].T)
-        db = 1 / m * np.sum(dZ_prev, axis=1, keepdims=True)
-        grads["dW" + str(len(dimensions) - 1)] = dW
-        grads["db" + str(len(dimensions) - 1)] = db
-        for j in range(len(dimensions) - 2, 0, -1):
-            dZ = np.dot(parameters['W' + str(j+1)].T, dZ_prev) * relu_derivative(cache['Z' + str(j)])
-            dW = 1 / m * np.dot(dZ, activations['A' + str(j-1)].T)
+        grads = dict()  # Declaring empty gradient dictionary
+        grads['dA' + str(len(dimensions) - 1)] = - Y / A_last + (1 - Y) / ((1 - A_last) + 0.0000001)
+        for j in range(len(dimensions) - 1, 0, -1):
+            dA = grads['dA' + str(j)]
+            if j == len(dimensions) - 1:
+                dZ = dA * sigmoid_derivative(cache['Z' + str(j)])
+            else:
+                dZ = dA * relu_derivative(cache['Z' + str(j)])
+            A_prev = activations['A' + str(j-1)]
+            dW = 1 / m * np.dot(dZ, A_prev.T)
             db = 1 / m * np.sum(dZ, axis=1, keepdims=True)
-            dZ_prev = dZ
             grads["dW" + str(j)] = dW
             grads["db" + str(j)] = db
+            W = parameters['W' + str(j)]
+            dA_prev = np.dot(W.T, dZ)
+            grads['dA' + str(j-1)] = dA_prev
 
         # Updating parameters (weights and biases)
         for j in range(len(dimensions)-1):
-            parameters["W" + str(j + 1)] = parameters["W" + str(j + 1)] - learning_rate * grads["dW" + str(j + 1)]
-            parameters["b" + str(j + 1)] = parameters["b" + str(j + 1)] - learning_rate * grads["db" + str(j + 1)]
+            old_parameters.append(grads["dW" + str(j + 1)])
+            old_parameters.append(grads["db" + str(j + 1)])
+            # FOUND THE ERROR : GRADIENTS BECOME ZERO
+            parameters["W" + str(j + 1)] -= learning_rate * grads["dW" + str(j + 1)]
+            parameters["b" + str(j + 1)] -= learning_rate * grads["db" + str(j + 1)]
 
-        # Print the cost every 100 training exampleW
-        if print_cost and i % 1 == 0:
+        # Print the cost after every iteration
+        if print_cost:
             print("Cost after iteration {}: {}".format(i, np.squeeze(cost)))
-        if print_cost and i % 1 == 0:
-            costs.append(cost)
 
     # Plot the cost graph at the end
 
     plt.plot(np.squeeze(costs))
     plt.ylabel('cost')
-    plt.xlabel('iterations (per hundreds)')
+    plt.xlabel('# iterations')
     plt.title("Learning rate =" + str(learning_rate))
     plt.show()
 

@@ -8,8 +8,8 @@ from model import model
 X_train_original = []
 Y_train_original = []
 # Reading the data from the file
-m_train = 2000  # Number of training data entries (max = 27456 with row 0 of labels)
-n_x = 784  # Number of features (28 x 28 = 784)
+m_train = 10  # Number of training data entries (max = 27456 with row 0 of labels)
+n_x = 10  # Number of features (28 x 28 = 784)
 index = 0
 with open('./data/sign_mnist_train.csv') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
@@ -35,6 +35,6 @@ layers_dims = (n_x, n_h, n_y)  # Grouping the dimensions in a tuple
 
 '''CALLING THE ARTIFICIAL NEURAL NETWORK MODEL'''
 learning_rate = 0.0075  # Initialising the Learning Rate
-num_iterations = 21  # Setting the number of iterations
+num_iterations = 5  # Setting the number of iterations
 parameters = model(X_train, Y_train, layers_dims, learning_rate, num_iterations, True)
 

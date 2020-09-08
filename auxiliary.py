@@ -6,8 +6,8 @@ def relu(Z):
 
 def relu_derivative(Z):
     # Derivative of the ReLU function (useful for back propagation)
-    Z[Z <= 0] = 0
-    Z[Z > 0] = 1
+    Z = np.where(Z <= 0, 0, Z)
+    Z = np.where(Z > 0, 1, Z)
     return Z
 
 def sigmoid(Z):
@@ -20,6 +20,6 @@ def sigmoid_derivative(Z):
 
 def logarithm(Z):
     # Logarithm function that does not allow 0 values (because log(0) = -infinity)
-    constant = 0.0000001
-    Z = np.where(Z == 0.0, constant, Z)
+    constant = 0.000001
+    Z = np.where(Z == 0, constant, Z)
     return np.log(Z)
