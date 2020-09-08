@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 import seaborn as sns
 import csv
 from model import model
@@ -29,13 +28,13 @@ X_train = X_train.astype('float64')  # Changing the dtypes to float64
 Y_train = Y_train.astype('float64')
 
 '''STRUCTURING THE ARTIFICIAL NEURAL NETWORK'''
-n_x = m_train  # Number of input units
+n_x = 784 # Number of input units
 n_h = [n_x, n_x, n_x]  # Array with the layers - 3 hidden layers - n_x units each
 n_y = 24  # Number of output units (# of letters in the English Alphabet without Z)
 layers_dims = (n_x, n_h, n_y)  # Grouping the dimensions in a tuple
 
 '''CALLING THE ARTIFICIAL NEURAL NETWORK MODEL'''
 learning_rate = 0.0075  # Initialising the Learning Rate
-num_iterations = 1  # Setting the number of iterations
+num_iterations = 21  # Setting the number of iterations
 parameters = model(X_train, Y_train, layers_dims, learning_rate, num_iterations, True)
 
