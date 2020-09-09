@@ -19,7 +19,11 @@
 
 <h2>Problems I faced</h2>
 <ul>
-    <li><strong>Dead Gradients</strong> - my gradients were going to 0 in the back propagation step although I was using the ReLU function for a better 
-    performance. I fixed it by scaling the features using the mean normalization and the standard deviation scaling 
-    technique</li>
+    <li><strong>Dead Gradients</strong> - my gradients were going to 0 in the back propagation step although I was using
+        the ReLU function for a better performance. I fixed it by scaling the features using the mean normalization and 
+        the standard deviation scaling technique
+    </li>
+    <li><strong>Cost is NaN</strong> - simply decreased the learning rate to fix this as a high learning rate might 
+        overshoot and fail to minimize
+    </li>
 </ul>
