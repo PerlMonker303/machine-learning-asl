@@ -33,17 +33,13 @@ def predict(X, Y, parameters, layers_dims):
 
     A_last = A.T
     Y = Y.T
-    count = 0
     for i in range(m):
         pos = np.where(Y[i] == 1)
         pos1 = int(pos[0][0])
         mx = np.max(A_last[i])
         pos = np.where(A_last[i] == mx)
         pos2 = int(pos[0][0])
-        if pos2 == 16:  # PROBLEM: IT ALWAYS PREDICTS 16 INSTEAD OF THE RIGHT VALUE
-            count += 1
         if pos1 == pos2:
             accuracy += 1
-    print(count)
-    print(m)
-    return accuracy / m
+
+    return accuracy / m * 100

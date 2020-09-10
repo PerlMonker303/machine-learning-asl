@@ -7,7 +7,8 @@
 </p>
 <h2>Results</h2>
 <p>
-  TO BE CONCLUDED
+  So far I managed to obtain an accuracy of around 37% on the training data and 34% on the development set. Tweaking the 
+  regularization parameter, learning rate, number of layers or of hidden units might change these numbers.
 </p>
 <h2>Concepts practiced</h2>
 <ul>
@@ -17,7 +18,7 @@
   <li>Feature Scaling with Mean Normalization and Standard Deviation</li>
   <li>Gradient Checking</li>
   <li>L2 Regularization</li>
-  <li>He initialization</li>
+  <li>He Initialization</li>
 </ul>
 
 <h2>Problems I faced</h2>
@@ -29,4 +30,6 @@
     <li><strong>Cost is NaN</strong> - simply decreased the learning rate to fix this as a high learning rate might 
         overshoot and fail to minimize
     </li>
+    <li><strong>Gradient Descent not minimizing the cost</strong> - after 8-10 iterations the cost would start increasing.
+    To fix this I had to find a smaller learning rate that would fit the optimizer nicely</li>
 </ul>

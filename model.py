@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 from auxiliary import *
+from gradientChecking import checkGradient
 
 def model(X, Y, layers_dims, learning_rate=0.075, num_iterations=3000, print_cost=False, lambd=0.5):
     """
@@ -44,7 +45,7 @@ def model(X, Y, layers_dims, learning_rate=0.075, num_iterations=3000, print_cos
             if j == len(dimensions) - 1:  # Compute the activation for the current layer
                 A = sigmoid(Z)
             else:
-                A = relu(Z)
+                A = leaky_relu(Z)
             activations['A' + str(j)] = A  # Store the activation so we can use it for the following iteration
             cache['Z' + str(j)] = Z  # Cache the current Z vector to be used later in the back propagation phase
 
@@ -86,6 +87,11 @@ def model(X, Y, layers_dims, learning_rate=0.075, num_iterations=3000, print_cos
         if print_cost:
             print("Cost after iteration {}: {}".format(i, np.squeeze(cost)))
 
+        if i == 0:
+            # Check if the back propagation algorithm functions fine (using Gradient Checking)
+            #checkGradient(parameters, grads, X, Y, dimensions, lambd)  # TO BE RAN ONLY ONCE FOR CORRECTITUDE CHECKING
+            pass
+
     # Plot the cost graph at the end
 
     plt.plot(np.squeeze(costs))
@@ -93,8 +99,5 @@ def model(X, Y, layers_dims, learning_rate=0.075, num_iterations=3000, print_cos
     plt.xlabel('# iterations')
     plt.title("Learning rate =" + str(learning_rate))
     plt.show()
-
-    # Check if the back propagation algorithm functions fine (using Gradient Checking)
-    # TO DO
 
     return parameters
