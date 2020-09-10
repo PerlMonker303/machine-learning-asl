@@ -8,7 +8,7 @@ from predict import predict
 X_train_original = []
 Y_train_original = []
 # Reading the data from the file
-m_train = 8000  # Number of training data entries (max = 27456 with row 0 of labels)
+m_train = 15000  # Number of training data entries (max = 27456 with row 0 of labels)
 n_x = 784  # Number of features (28 x 28 = 784)
 index = 0
 with open('./data/sign_mnist_train.csv') as csv_file:
@@ -41,12 +41,12 @@ Y_train = np.array(rows).T  # Transforming the array of rows into a numpy array
 
 '''STRUCTURING THE ARTIFICIAL NEURAL NETWORK'''
 n_x = 784 # Number of input units
-n_h = [n_x * 2, n_x * 2, n_x * 2, n_x * 2]  # Array with the layers - 4 hidden layers - n_x * 2 units each
+n_h = [n_x * 4]  # Array with the layers - '1' hidden layers - n_x * 4 units each
 n_y = 25  # Number of output units (# of letters in the English Alphabet without Z)
 layers_dims = (n_x, n_h, n_y)  # Grouping the dimensions in a tuple
 
 '''TRAINING THE ARTIFICIAL NEURAL NETWORK MODEL'''
-learning_rate = 0.005  # Initialising the Learning Rate
+learning_rate = 0.06  # Initialising the Learning Rate
 num_iterations = 30  # Setting the number of iterations
 lambd_reg = 0.3  # Setting the regularization factor
 parameters = model(X_train, Y_train, layers_dims, learning_rate, num_iterations, True, lambd_reg)
@@ -59,7 +59,7 @@ print("Training accuracy: " + str(train_accurracy) + "%")
 X_test_original = []
 Y_test_original = []
 # Reading the data from the file
-m_test = 3000  # Number of test data entries (max = 7172 with row 0 of labels)
+m_test = 5000  # Number of test data entries (max = 7172 with row 0 of labels)
 index = 0
 with open('./data/sign_mnist_test.csv') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')

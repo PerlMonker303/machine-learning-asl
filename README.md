@@ -7,7 +7,7 @@
 </p>
 <h2>Results</h2>
 <p>
-  So far I managed to obtain an accuracy of around 37% on the training data and 34% on the development set. Tweaking the 
+  So far I managed to obtain an accuracy of around 67% on the training data and 56% on the development set. Tweaking the 
   regularization parameter, learning rate, number of layers or of hidden units might change these numbers.
 </p>
 <h2>Concepts practiced</h2>
