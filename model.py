@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 from auxiliary import *
 
-def model(X, Y, layers_dims, learning_rate=0.075, num_iterations=3000, print_cost=False):
+def model(X, Y, layers_dims, learning_rate=0.075, num_iterations=3000, print_cost=False, lambd=0.5):
     """
     Implements a three-layer artificial neural network
 
@@ -10,8 +10,9 @@ def model(X, Y, layers_dims, learning_rate=0.075, num_iterations=3000, print_cos
     Y -- vector of elements from 0 to 24 (corresponding to each letter of the English Alphabet)
     layers_dims -- dimensions of the layers (n_x, n_h, n_y)
     learning_rate -- learning rate of the gradient descent update rule
-    num_iterations -- number of iterations of the optimization loop
+    num_iterations -- Number of iterations of the optimization loop
     print_cost -- If set to True, this will print the cost every 100 iterations
+    lambd -- The regularization factor
 
     Returns:
     parameters -- a dictionary containing W1, W2, b1, and b2
@@ -25,8 +26,8 @@ def model(X, Y, layers_dims, learning_rate=0.075, num_iterations=3000, print_cos
     # Initialise the parameters randomly
     parameters = {}
     dimensions = [n_x] + n_h + [n_y]
-    for l in range(1, len(dimensions)):
-        parameters['W' + str(l)] = np.random.randn(dimensions[l], dimensions[l-1]) * 0.01
+    for l in range(1, len(dimensions)):  # Using He Initialization
+        parameters['W' + str(l)] = np.random.randn(dimensions[l], dimensions[l-1]) * np.sqrt(2 / dimensions[l-1])
         parameters['b' + str(l)] = np.zeros((dimensions[l], 1))
 
     # Start Optimization - Batch Gradient Descent
@@ -51,8 +52,11 @@ def model(X, Y, layers_dims, learning_rate=0.075, num_iterations=3000, print_cos
         A_last = A  # Taking the last activation vector
         cost = - 1 / m * np.sum(np.dot(Y.T, logarithm(A_last)) + np.dot((1-Y).T, logarithm(1-A_last)))
         regularization = 0  # Initialising the regularization
+        for l in range(1, len(dimensions)):
+            W = parameters['W' + str(l)]
+            regularization += np.sum(np.square(W))
 
-        cost += regularization  # TO BE ADDED
+        cost += (lambd / m * regularization)
         costs.append(cost)
 
         # Backward Propagation Step
@@ -65,11 +69,11 @@ def model(X, Y, layers_dims, learning_rate=0.075, num_iterations=3000, print_cos
             else:
                 dZ = dA * relu_derivative(cache['Z' + str(j)])
             A_prev = activations['A' + str(j-1)]
-            dW = 1 / m * np.dot(dZ, A_prev.T)
+            W = parameters['W' + str(j)]
+            dW = 1 / m * np.dot(dZ, A_prev.T) + lambd / m * W
             db = 1 / m * np.sum(dZ, axis=1, keepdims=True)
             grads["dW" + str(j)] = dW
             grads["db" + str(j)] = db
-            W = parameters['W' + str(j)]
             dA_prev = np.dot(W.T, dZ)
             grads['dA' + str(j-1)] = dA_prev
 
@@ -89,5 +93,8 @@ def model(X, Y, layers_dims, learning_rate=0.075, num_iterations=3000, print_cos
     plt.xlabel('# iterations')
     plt.title("Learning rate =" + str(learning_rate))
     plt.show()
+
+    # Check if the back propagation algorithm functions fine (using Gradient Checking)
+    # TO DO
 
     return parameters

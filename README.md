@@ -15,11 +15,14 @@
   <li>Deep Neural Network</li>
   <li>Batch Gradient Descent</li>
   <li>Feature Scaling with Mean Normalization and Standard Deviation</li>
+  <li>Gradient Checking</li>
+  <li>L2 Regularization</li>
+  <li>He initialization</li>
 </ul>
 
 <h2>Problems I faced</h2>
 <ul>
-    <li><strong>Dead Gradients</strong> - my gradients were going to 0 in the back propagation step although I was using
+    <li><strong>Vanishing Gradients</strong> - my gradients were going to 0 in the back propagation step although I was using
         the ReLU function for a better performance. I fixed it by scaling the features using the mean normalization and 
         the standard deviation scaling technique
     </li>
