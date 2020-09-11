@@ -33,3 +33,17 @@
     <li><strong>Gradient Descent not minimizing the cost</strong> - after 8-10 iterations the cost would start increasing.
     To fix this I had to find a smaller learning rate that would fit the optimizer nicely</li>
 </ul>
+
+<h2>How to run on your machine and test your own images?</h2>
+<ol>
+    <li>In the root directory create a directory called "data"</li>
+    <li>Inside of it extract the data from the Kaggle link above (in the description)</li>
+    <li>Delete everything that is extracted except the two .csv files (sign_mnist_data.csv and sign_mnist_test.csv)</li>
+    <li>Create another directory inside "data" called "custom"</li>
+    <li>Paste here all the images you want to test yourself - name them in the following manner: "cust_id.jpg" where id 
+    will be the index of the image (starting from 1)</li>
+    <li>In the "main.py" module change the variable "m_custom" to be equal to the number of custom images you want to 
+    run your algorithm on (your own images)</li>
+    <li>Run the "main.py" module, wait for the training and at the end you will see in the console your predictions one 
+    after the other</li>
+</ol>

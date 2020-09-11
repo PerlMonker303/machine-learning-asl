@@ -3,12 +3,16 @@ import csv
 from model import model
 from featureScaling import featureScaling
 from predict import predict
+import matplotlib.pyplot as plt
+import matplotlib.image as pimg
+from PIL import Image
+from predictCustom import predictCustom
 
 '''LOADING THE TRAINING DATA SET + PREPROCESSING'''
 X_train_original = []
 Y_train_original = []
 # Reading the data from the file
-m_train = 15000  # Number of training data entries (max = 27456 with row 0 of labels)
+m_train = 10000  # Number of training data entries (max = 27456 with row 0 of labels)
 n_x = 784  # Number of features (28 x 28 = 784)
 index = 0
 with open('./data/sign_mnist_train.csv') as csv_file:
@@ -36,12 +40,21 @@ for i in range(len(Y_train[0])):  # For each training example
     rows.append(row)  # Appending the row to the array of rows
 Y_train = np.array(rows).T  # Transforming the array of rows into a numpy array
 
+'''VISUALISING SOME RANDOM IMAGES'''
+np.random.seed()  # initialise a random seed
+pictures_num = 0  # number of pictures we want to see
+for i in range(pictures_num):
+    rnd = np.random.randint(0, m_train)
+    pic_vector = X_train[:, rnd].reshape(28, 28)
+    plt.imshow(pic_vector)
+    plt.show()
+
 '''SCALING FEATURES'''
 [X_train, lmbda, mu] = featureScaling(X_train)
 
 '''STRUCTURING THE ARTIFICIAL NEURAL NETWORK'''
 n_x = 784 # Number of input units
-n_h = [n_x * 4]  # Array with the layers - '1' hidden layers - n_x * 4 units each
+n_h = [n_x * 4, n_x * 4]  # Array with the layers - '2' hidden layers - n_x * 4 units each
 n_y = 25  # Number of output units (# of letters in the English Alphabet without Z)
 layers_dims = (n_x, n_h, n_y)  # Grouping the dimensions in a tuple
 
@@ -68,7 +81,7 @@ with open('./data/sign_mnist_test.csv') as csv_file:
             X_test_original.append(row[1:])
             Y_test_original.append(row[0:1])
         index += 1
-        if index > m_train:
+        if index > m_test:
             break
 
 # Transforming the arrays to a numpy array
@@ -92,3 +105,37 @@ X_test = (X_test - lmbda) / mu
 '''ACCURACY PREDICTION FOR THE TEST SET'''
 test_accurracy = predict(X_test, Y_test, parameters, layers_dims)
 print("Training accuracy: " + str(test_accurracy) + "%")
+
+'''CUSTOM IMAGE PREDICTIONS'''
+
+# Read the images
+X_custom_original = []
+m_custom = 2
+for i in range(m_custom):
+    image = pimg.imread('./data/custom/cust_' + str(i+1) + '.jpg')
+    arr = np.asarray(image)
+    resized_img = Image.fromarray(arr).resize(size=(28, 28))
+    arr = np.asarray(resized_img)
+    X_custom_original.append(arr)
+
+# Transforming the arrays to a numpy array
+X_custom = np.array(X_custom_original).T  # n_x x m_custom
+X_custom = X_custom.astype('float64')  # Changing the dtypes to float64
+
+X_custom_colors = []
+# Transform images from RGB to simple average
+# Scale features using the previously computed lambda and miu from the training set
+for i in range(m_custom):
+    avg = (X_custom[0, :, :, i] + X_custom[1, :, :, i] + X_custom[2, :, :, i]) / 3
+    avg = avg.reshape(784, 1)
+    #avg = (avg - lmbda) / mu
+    X_custom_colors.append(avg)
+
+X_custom = np.array(X_custom_colors)
+X_custom = X_custom.transpose(2, 0, 1).reshape(-1, X_custom.shape[1]).transpose()
+X_custom_original = X_custom
+X_custom = (X_custom - lmbda) / mu
+
+# Custom prediction
+dimensions = [n_x] + n_h + [n_y]  # Box together the dimensions
+predictCustom(X_custom, m_custom, parameters, dimensions, X_custom_original)

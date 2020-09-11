@@ -19,7 +19,6 @@ def model(X, Y, layers_dims, learning_rate=0.075, num_iterations=3000, print_cos
     parameters -- a dictionary containing W1, W2, b1, and b2
     """
 
-    np.random.seed(1)  # initialise a random seed
     costs = []  # to keep track of the cost
     m = X.shape[1]  # number of examples
     (n_x, n_h, n_y) = layers_dims  # unboxing the layer dimensions

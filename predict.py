@@ -7,7 +7,7 @@ def predict(X, Y, parameters, layers_dims):
     Arguments:
     X -- input data, of shape (n_x, number of examples)
     Y -- vector of elements from 0 to 24 (corresponding to each letter of the English Alphabet)
-    parameters -- a dictionary containing W1, W2, b1, and b2
+    parameters -- a dictionary containing weights (W) and biases (b)
     layers_dims -- dimensions of the layers (n_x, n_h, n_y)
 
     Returns:
