@@ -11,7 +11,7 @@ def relu_derivative(Z):
     return Z
 
 def leaky_relu(Z):
-    # Leaky Rectivied Linear Unit Function
+    # Leaky Rectified Linear Unit Function
     c = 0.001
     Z = np.where(Z <= 0, Z * c, Z)
     Z = np.where(Z > 0, 1, Z)
@@ -28,7 +28,7 @@ def sigmoid_derivative(Z):
 def logarithm(Z):
     # Logarithm function that does not allow 0 values (because log(0) = -infinity)
     constant = 0.000001
-    Z = np.where(Z == 0, constant, Z)
+    Z = np.where(Z == 0.0, constant, Z)
     return np.log(Z)
 
 def tanh(Z):
@@ -54,3 +54,16 @@ def vector_to_dictionary(vec):
         dic['W' + str(int(i/2) + 1)] = vec[i]
         dic['b' + str(int(i/2) + 1)] = vec[i+1]
     return dic
+
+def initialize_adam(parameters, dimensions):
+    # Function used to initialise the parameters needed for Adam optimization
+    v = {}  # Initialise empty dictionary for v values
+    s = {}  # Initialise empty dictionary for s values
+
+    for l in range(len(dimensions) - 1):
+        v["dW" + str(l + 1)] = np.zeros((parameters["W" + str(l + 1)].shape[0], parameters["W" + str(l + 1)].shape[1]))
+        v["db" + str(l + 1)] = np.zeros((parameters["b" + str(l + 1)].shape[0], parameters["b" + str(l + 1)].shape[1]))
+        s["dW" + str(l + 1)] = np.zeros((parameters["W" + str(l + 1)].shape[0], parameters["W" + str(l + 1)].shape[1]))
+        s["db" + str(l + 1)] = np.zeros((parameters["b" + str(l + 1)].shape[0], parameters["b" + str(l + 1)].shape[1]))
+
+    return v, s

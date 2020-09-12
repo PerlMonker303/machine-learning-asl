@@ -14,11 +14,13 @@
 <ul>
   <li>Multi-Class Classification Problem</li>
   <li>Deep Neural Network</li>
-  <li>Batch Gradient Descent</li>
+  <li>Batch and Mini-Batch Gradient Descent</li>
+  <li>Adaptive Moment Estimation (Adam) Optimization</li>
   <li>Feature Scaling with Mean Normalization and Standard Deviation</li>
   <li>Gradient Checking</li>
   <li>L2 Regularization</li>
   <li>He Initialization</li>
+  <li>Decaying Learning Rate</li>
 </ul>
 
 <h2>Problems I faced</h2>

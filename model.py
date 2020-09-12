@@ -11,9 +11,9 @@ def model(X, Y, layers_dims, learning_rate=0.075, num_iterations=3000, print_cos
     Y -- vector of elements from 0 to 24 (corresponding to each letter of the English Alphabet)
     layers_dims -- dimensions of the layers (n_x, n_h, n_y)
     learning_rate -- learning rate of the gradient descent update rule
-    num_iterations -- Number of iterations of the optimization loop
-    print_cost -- If set to True, this will print the cost every 100 iterations
-    lambd -- The regularization factor
+    num_iterations -- number of iterations of the optimization loop
+    print_cost -- if set to True, this will print the cost every 100 iterations
+    lambd -- the regularization factor
 
     Returns:
     parameters -- a dictionary containing W1, W2, b1, and b2
@@ -78,9 +78,9 @@ def model(X, Y, layers_dims, learning_rate=0.075, num_iterations=3000, print_cos
             grads['dA' + str(j-1)] = dA_prev
 
         # Updating parameters (weights and biases)
-        for j in range(len(dimensions)-1):
-            parameters["W" + str(j + 1)] -= learning_rate * grads["dW" + str(j + 1)]
-            parameters["b" + str(j + 1)] -= learning_rate * grads["db" + str(j + 1)]
+        for l in range(len(dimensions)-1):
+            parameters["W" + str(l + 1)] -= learning_rate * grads["dW" + str(l + 1)]
+            parameters["b" + str(l + 1)] -= learning_rate * grads["db" + str(l + 1)]
 
         # Print the cost after every iteration
         if print_cost:

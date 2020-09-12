@@ -1,6 +1,7 @@
 import numpy as np
 import csv
 from model import model
+from modelMiniBatch import modelMiniBatch
 from featureScaling import featureScaling
 from predict import predict
 import matplotlib.pyplot as plt
@@ -59,10 +60,12 @@ n_y = 25  # Number of output units (# of letters in the English Alphabet without
 layers_dims = (n_x, n_h, n_y)  # Grouping the dimensions in a tuple
 
 '''TRAINING THE ARTIFICIAL NEURAL NETWORK MODEL'''
-learning_rate = 0.06  # Initialising the Learning Rate
-num_iterations = 30  # Setting the number of iterations
+learning_rate = 0.006  # Initialising the Learning Rate
 lambd_reg = 0.3  # Setting the regularization factor
-parameters = model(X_train, Y_train, layers_dims, learning_rate, num_iterations, True, lambd_reg)
+mini_batch_size = 256  # Setting the size of a batch
+num_epochs = 10  # Setting the number of epochs (= m => Batch G.D.; = 1 => Stochastic G.D.)
+decay_rate = 1  # 0 if you don't want to use a decaying leraning rate
+parameters = modelMiniBatch(X_train, Y_train, layers_dims, mini_batch_size, learning_rate, decay_rate, num_epochs, True, lambd_reg)
 
 '''ACCURACY PREDICTION FOR THE TRAINING SET'''
 train_accurracy = predict(X_train, Y_train, parameters, layers_dims)
