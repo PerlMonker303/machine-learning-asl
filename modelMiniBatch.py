@@ -66,7 +66,7 @@ def modelMiniBatch(X, Y, layers_dims, mini_batch_size, learning_rate=0.075, deca
     activations = {}  # Dictionary to hold the activation vectors ( A_0, A_1, ... A_(L-1) )
     cache = {}  # Dictionary in which we cache the results of Z (we need them for back propagation algorithm)
     for i in range(0, num_epochs):
-        #learning_rate = learning_rate / (1 + decay_rate * (i + 1))  # Decaying the learning rate
+        # learning_rate = learning_rate / (1 + decay_rate * (i + 1))  # Decaying the learning rate
         for j in range(len(mini_batches)):
             mini_batch_X, mini_batch_Y = mini_batches[j]
             # Forward Propagation Step

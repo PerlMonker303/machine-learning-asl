@@ -13,7 +13,7 @@ from predictCustom import predictCustom
 X_train_original = []
 Y_train_original = []
 # Reading the data from the file
-m_train = 10000  # Number of training data entries (max = 27456 with row 0 of labels)
+m_train = 8000  # Number of training data entries (max = 27456 with row 0 of labels)
 n_x = 784  # Number of features (28 x 28 = 784)
 index = 0
 with open('./data/sign_mnist_train.csv') as csv_file:
@@ -60,10 +60,10 @@ n_y = 25  # Number of output units (# of letters in the English Alphabet without
 layers_dims = (n_x, n_h, n_y)  # Grouping the dimensions in a tuple
 
 '''TRAINING THE ARTIFICIAL NEURAL NETWORK MODEL'''
-learning_rate = 0.006  # Initialising the Learning Rate
+learning_rate = 0.00003  # Initialising the Learning Rate
 lambd_reg = 0.3  # Setting the regularization factor
-mini_batch_size = 256  # Setting the size of a batch
-num_epochs = 10  # Setting the number of epochs (= m => Batch G.D.; = 1 => Stochastic G.D.)
+mini_batch_size = 32  # Setting the size of a batch
+num_epochs = 5  # Setting the number of epochs (= m => Batch G.D.; = 1 => Stochastic G.D.)
 decay_rate = 1  # 0 if you don't want to use a decaying leraning rate
 parameters = modelMiniBatch(X_train, Y_train, layers_dims, mini_batch_size, learning_rate, decay_rate, num_epochs, True, lambd_reg)
 
@@ -113,7 +113,7 @@ print("Training accuracy: " + str(test_accurracy) + "%")
 
 # Read the images
 X_custom_original = []
-m_custom = 2
+m_custom = 6  # Number of custom images to predict
 for i in range(m_custom):
     image = pimg.imread('./data/custom/cust_' + str(i+1) + '.jpg')
     arr = np.asarray(image)

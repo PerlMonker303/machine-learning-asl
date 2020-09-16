@@ -39,6 +39,10 @@ def tanh_derivative(Z):
     # Hyperbolic Tangent Derivative
     return 1 / np.power(np.cosh(Z), 2)
 
+def softmax(Z):
+    # Softmax Function
+    return np.exp(Z) / np.sum(np.exp(Z), axis=0)
+
 def dictionary_to_vector(dict):
     # Function that given a dictionary will output a vector with the values from the dictionary
     vec = []

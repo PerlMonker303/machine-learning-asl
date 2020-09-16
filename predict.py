@@ -26,7 +26,7 @@ def predict(X, Y, parameters, layers_dims):
         b = parameters['b' + str(j)]  # Retrieve the bias from the parameters dictionary
         Z = np.dot(W, A_prev) + b  # Compute the Z value for the current layer
         if j == len(dimensions) - 1:  # Compute the activation for the current layer
-            A = sigmoid(Z)
+            A = softmax(Z)
         else:
             A = relu(Z)
         activations['A' + str(j)] = A  # Store the activation so we can use it for the following iteration
