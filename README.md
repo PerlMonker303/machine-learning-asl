@@ -1,14 +1,14 @@
 <h1>ASL Recognizer</h1>
 <h2>Description</h2>
 <p>
-  ASL stands for "American Sign Language" is a widely used sign language for those requiring hearing and speaking aids. Similar to spoken languages, ASL also uses letters which one may express using one hand and no motion (except for letter Z).
+  ASL (stands for "American Sign Language") is a widely used sign language for those requiring hearing and speaking aids. Similar to spoken languages, ASL also uses letters which one may express using one hand and no motion (except for letter Z).
   <br>
-  Using my knowledge regarding Deep Learning I trained an Artifical Neural Network to smartly predict ASL signs based on an image input of a hand. The images are of size 28x28 and the data set was taken from <a href="https://www.kaggle.com/datamunge/sign-language-mnist">here</a>.
+  Using my basic knowledge regarding Deep Learning I trained an Artifical Neural Network to smartly predict ASL signs based on an image input of a hand. The images are of size 28x28 and the data set was taken from <a href="https://www.kaggle.com/datamunge/sign-language-mnist">here</a>. The NN is made by hand and does not utilize any premade functions for traversing the layers besides the Adam Optimizer used to obtain the best parameters.
 </p>
 <h2>Results</h2>
 <p>
   So far I managed to obtain an accuracy of around 67% on the training data and 56% on the development set. Tweaking the 
-  regularization parameter, learning rate, number of layers or of hidden units might change these numbers.
+  regularization parameter, learning rate, number of layers or of hidden units might change these numbers slightly.
 </p>
 <h2>Concepts practiced</h2>
 <ul>
